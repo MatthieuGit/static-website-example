@@ -2,7 +2,4 @@ FROM httpd:2.4
 LABEL version="1.0"
 MAINTAINER BAILLY MATTHIEU <matth.bailly@gmail.com>
 COPY . /usr/local/apache2/htdocs/
-ARG WEBSITE_PORT=80
-ARG WEBSITE_PORT_HEROKU=5000
-EXPOSE ${WEBSITE_PORT}
-EXPOSE ${WEBSITE_PORT_HEROKU}
+RUN sed -i 's/Listen 80/Listen 5000/g' /usr/local/apache2/conf/httpd.conf
