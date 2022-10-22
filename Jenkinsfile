@@ -20,13 +20,24 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    
+                     echo "Cleaning existing container if exist"
+                     docker ps -a | grep -i $IMAGE_NAME && docker rm -f $IMAGE_NAME
                      docker run -d -p 8181:5000 -e PORT=5000 --name ${IMAGE_NAME}  matthewmurdauck/${IMAGE_NAME}:${IMAGE_TAG}
                      sleep 5
                     '''
                 }
             }
         }
+         stage('Test image') {
+           agent any
+           steps {
+              script {
+                sh '''
+                   curl 172.17.0.1 | grep -i "Dimension"
+                '''
+              }
+           }
+       }
         stage('Push image in staging and deploy it') {
             when {
                 expression { GIT_BRANCH == 'origin/master' }
