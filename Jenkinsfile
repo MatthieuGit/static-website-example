@@ -32,7 +32,7 @@ pipeline {
             steps {
                 script {
                     sh '''
-                        curl http://192.168.1.70 | grep -q "A fully responsive site template designed by"
+                        curl http://192.168.1.24 | grep -q "A fully responsive site template designed by"
                     '''
                 }
             }
