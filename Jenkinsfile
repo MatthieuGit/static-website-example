@@ -27,27 +27,6 @@ pipeline {
                 }
             }
         }
-        stage('Test image') {
-            agent any
-            steps {
-                script {
-                    sh '''
-                        curl http://192.168.1.24:8181 | grep -q "A fully responsive site template designed by"
-                    '''
-                }
-            }
-        }
-        stage('Clean container') {
-            agent any
-            steps {
-                script {
-                    sh '''
-                    docker stop ${IMAGE_NAME}
-                    docker rm ${IMAGE_NAME}
-                    '''
-                }
-            }
-        }
         stage('Push image in staging and deploy it') {
             when {
                 expression { GIT_BRANCH == 'origin/master' }
